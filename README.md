@@ -3,16 +3,16 @@ A collection of Bash scripts from [TecMint.com's tutorial](http://www.tecmint.co
 1. [Hello.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Hello.sh): get a simple output
 1. [Process.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Process.sh): execute more than one command in a script
 1. [Interactive.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Interactive.sh): a simple but very much interactive script
-1. [Special_patter.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Special_patter.sh): draw a diamond pattern with dots(.)
-1. [Colourfull.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Colourfull.sh): provide you with the output of several colours
+1. [Special_Patter.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Special_Pattern.sh): draw a diamond pattern with dots(.)
+1. [Colorfull.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Colorfull.sh): provide you with the output of several colours
 1. [Encrypt.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Encrypt.sh): encrypt a file/folder with password
 1. [Server-Health.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Server-Health.sh): report server related information
-1. [Disk_space.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Disk_space.sh): check if the disk space crosses the limit
+1. [Disk-Space.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Disk-Space.sh): check if the disk space crosses the limit
 1. [up.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/up.sh): move up a directory in shell script
-1. [Randomfile.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Randomfile.sh): create unique file/folder automatically with date and time stamp
-1. [Collectnetworkinfo.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Collectnetworkinfo.sh): gather information related to server
-1. [Convertlowercase.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Convertlowercase.sh): convert data either from the file or standard input to lowercase
-1. [Simplecacl.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Simplecacl.sh): a simple calculator
+1. [Randomfile.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/randomfile.sh): create unique file/folder automatically with date and time stamp
+1. [Collectnetworkinfo.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/collectnetworkinfo.sh): gather information related to server
+1. [Convertlowercase.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/convertlowercase.sh): convert data either from the file or standard input to lowercase
+1. [Simplecacl.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/simplecacl.sh): a simple calculator
 1. [Addition.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Addition.sh): perform addition of two numbers
 1. [Substraction.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Substraction.sh): perform substraction of two numbers
 1. [Multiplication.sh](https://github.com/ruanyf/simple-bash-scripts/blob/master/Multiplication.sh): perform multiplication of two numbers
