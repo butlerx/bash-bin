@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 
-killall -q lemonbuddy
 #xrandr --output eDP1 --auto --output DP1 --auto --scale 2x2 --right-of eDP1
-xrandr --output eDP1 --auto --output DP1 --auto --right-of eDP1
-lemonbuddy i3 &
-lemonbuddy second &
+xrandr --output eDP1 --auto --output DP1 --auto --left-of eDP1
+~/bin/startbar2
