@@ -1,20 +1,12 @@
 #!/bin/bash
 
-# duplicated.sh   version 1.4   august 2008   written by Feherke
-# search for multiple files with the same content
-
-echo 'duplicated.sh   version 1.4   august 2008   written by Feherke'
 echo 'search for multiple files with the same content'
 echo
-
 shopt -s extglob
-
 directory=()
 sizelimit='0'
 algorithm='md5'
-
 missing=''
-
 while (( $# )); do
   case "$1" in
     '-s') shift; sizelimit="$1" ;;
@@ -25,17 +17,15 @@ while (( $# )); do
       cat <<EOT
 Syntax :
   duplicate.sh [-s size] [-a algorithm] [directory [...]]
-  
 Parameters :
   -s size | --size=size  - file size in bytes, smallers are not checked ( 0 )
   -a algorithm | --algo=algorithm  - checksum algorithm : MD5 or SHA1 ( MD5 )
   directory  - directory with path to include in the search ( . )
-  
 All searches are recursive.
 EOT
       exit
     ;;
-    *) 
+    *)
       [[ -e "$1" ]] || missing="$missing '$1',"
       directory[${#directory[@]}]="$1"
     ;;
@@ -132,3 +122,4 @@ sec=$SECONDS
 (( sec%60 )) && echo -n " $(( sec%60 )) seconds"
 (( sec )) || echo -n ' no time'
 echo '.'
+cat duplicate.txt
