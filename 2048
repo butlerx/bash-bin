@@ -11,7 +11,8 @@ declare -i moves     # stores number of possible moves to determine if player lo
 declare ESC=$'\e'    # escape byte
 declare header="Bash 2048 v1.1 (https://github.com/mydzor/bash2048)"
 
-declare -i start_time=$(date +%s)
+start_time=$(date +%s)
+declare -i start_time
 
 #default config
 declare -i board_size=4
@@ -21,11 +22,11 @@ declare config_dir="$HOME/.bash2048"
 
 #for colorizing numbers
 declare -a colors
-colors[2]=33         # yellow text
-colors[4]=32         # green text
-colors[8]=34         # blue text
-colors[16]=36        # cyan text
-colors[32]=35        # purple text
+colors[2]=33                  # yellow text
+colors[4]=32                  # green text
+colors[8]=34                  # blue text
+colors[16]=36                 # cyan text
+colors[32]=35                 # purple text
 colors[64]="33m\033[7"        # yellow background
 colors[128]="32m\033[7"       # green background
 colors[256]="34m\033[7"       # blue background
@@ -51,7 +52,7 @@ function _seq {
        let max=$3;;
   esac
   while test $max -ge $cur; do
-    printf "$cur "
+    printf "%i " "$cur"
     let cur+=inc
   done
 }
@@ -63,20 +64,20 @@ function print_board {
   printf "Board status:\n" >&3
   printf "\n"
   printf '/------'
-  for l in $(_seq 1 $index_max); do
+  for l in $(_seq 1 "$index_max"); do
     printf '+------'
   done
   printf '\\\n'
-  for l in $(_seq 0 $index_max); do
+  for l in $(_seq 0 "$index_max"); do
     printf '|'
-    for m in $(_seq 0 $index_max); do
+    for m in $(_seq 0 "$index_max"); do
       if let ${board[l*$board_size+m]}; then
         if let '(last_added==(l*board_size+m))|(first_round==(l*board_size+m))'; then
-          printf '\033[1m\033[31m %4d \033[0m|' ${board[l*$board_size+m]}
+          printf '\033[1m\033[31m %4d \033[0m|' "${board[l*$board_size+m]}"
         else
-          printf "\033[1m\033[${colors[${board[l*$board_size+m]}]}m %4d\033[0m |" ${board[l*$board_size+m]}
+          printf "\033[1m\033[${colors[${board[l*$board_size+m]}]}m %4d\033[0m |" "${board[l*$board_size+m]}"
         fi
-        printf " %4d |" ${board[l*$board_size+m]} >&3
+        printf " %4d |" "${board[l*$board_size+m]}" >&3
       else
         printf '      |'
         printf '      |' >&3
@@ -84,7 +85,7 @@ function print_board {
     done
     let l==$index_max || {
       printf '\n|------'
-      for l in $(_seq 1 $index_max); do
+      for l in $(_seq 1 "$index_max"); do
         printf '+------'
       done
       printf '|\n'
@@ -92,7 +93,7 @@ function print_board {
     }
   done
   printf '\n\\------'
-  for l in $(_seq 1 $index_max); do
+  for l in $(_seq 1 "$index_max"); do
     printf '+------'
   done
   printf '/\n'
@@ -108,11 +109,11 @@ function print_board {
 function generate_piece {
   while true; do
     let pos=RANDOM%fields_total
-    let board[$pos] || {
+    let board[pos] || {
       let value=RANDOM%10?2:4
       board[$pos]=$value
       last_added=$pos
-      printf "Generated new piece with value $value at position [$pos]\n" >&3
+      printf "Generated new piece with value %i at position [%i]\n" "$value" "$pos" >&3
       break;
     }
   done

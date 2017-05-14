@@ -38,7 +38,7 @@ selfdir="${0%/*}"
 
 echo -n 'reading settings... '
 
-while read str; do
+while read -r str; do
   [[ "$str" ]] || continue
   [[ "${str:0:1}" == '#' ]] && continue
   [[ "$str" == \[*\] ]] && {
