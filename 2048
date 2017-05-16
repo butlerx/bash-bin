@@ -85,7 +85,7 @@ function print_board {
     done
     let l==$index_max || {
       printf '\n|------'
-      for l in $(_seq 1 "$index_max"); do
+      for j in $(_seq 1 "$index_max"); do
         printf '+------'
       done
       printf '|\n'
@@ -154,9 +154,9 @@ function push_pieces {
   esac
   let ${board[$first]} || {
     let ${board[$second]} && {
-      if test -z $5; then
+      if test -z "$5"; then
         board[$first]=${board[$second]}
-        let board[$second]=0
+        let board["$second"]=0
         let change=1
         printf "move piece with value ${board[$first]} from [$second] to [$first]\n" >&3
       else
@@ -168,7 +168,7 @@ function push_pieces {
   }
   let ${board[$second]} && let flag_skip=1
   let "${board[$first]}==${board[second]}" && {
-    if test -z $5; then
+    if test -z "$5"; then
       let board[$first]*=2
       let "board[$first]==$target" && end_game 1
       let board[$second]=0

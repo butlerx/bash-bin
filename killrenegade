@@ -41,9 +41,13 @@ echo -n 'reading settings... '
 while read -r str; do
   [[ "$str" ]] || continue
   [[ "${str:0:1}" == '#' ]] && continue
-  [[ "$str" == \[*\] ]] && {
+  [[ "$str" == "[*]" ]] && {
     sec="${str:1:$(( ${#str}-2 ))}"
-    [[ "$sec" == 'default' ]] && nr=0 || { [[ "$sec" != 'general' ]] && { nr=${#sect[@]}; sect[nr]="$sec"; } }
+    if [[ "$sec" == 'default' ]]; then
+      nr=0
+    else
+      [[ "$sec" != 'general' ]] && { nr=${#sect[@]}; sect[nr]="$sec"; }
+    fi
     continue
   }
   [[ "$sec" ]] || continue
@@ -116,9 +120,9 @@ while :; do
       (( verb>1 )) && echo " - ${sect[i]}"
 
       ps h -C "${comm[i]}" -o 'pid user=twentycharacterswide %cpu %mem' | \
-      while read pid user cpu mem; do
+      while read -r pid user cpu mem; do
 
-        [[ "${user[i]}" != '-' ]] && { grep -q -w $( sed -n '/no/i-v' <<< "${uown[i]}" ) "$user" <<< "${user[i]}" || continue; }
+        [[ "${user[i]}" != '-' ]] && { grep -q -w "$( sed -n '/no/i-v' <<< "${uown[i]}" )" "$user" <<< "${user[i]}" || continue; }
 
         cpui="${cpu%.*}"
         memi="${mem%.*}"
