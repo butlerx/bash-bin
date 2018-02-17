@@ -1,49 +1,49 @@
 #!/bin/bash
 
-function convertDir () {
-  for file in *.pdf; do
-    convertPdf "$file"
-  done
+function convertDir() {
+	for file in *.pdf; do
+		convertPdf "$file"
+	done
 }
 
-function convertPdf () {
-  file=$1
-  file="${file%.*}"
-  mkdir "$file"
-  convert -density 300 "$file".pdf -quality 100 "$file"/"$file".png
-  mv "$file".pdf "$file"
-  mv "$file"/"$file"-0.png "$file"/"$file".png
-  if [ "$COVER" = true ]; then
-    rm -rf "$file"/"$file"-*
-  fi
+function convertPdf() {
+	file=$1
+	file="${file%.*}"
+	mkdir "$file"
+	convert -density 300 "$file".pdf -quality 100 "$file"/"$file".png
+	mv "$file".pdf "$file"
+	mv "$file"/"$file"-0.png "$file"/"$file".png
+	if [ "$COVER" = true ]; then
+		rm -rf "$file"/"$file"-*
+	fi
 }
 
-function usage () {
-  echo "Usage: convertPdf  [--cover | -c] [-d | --dir] [-f | --file (fileToConvert.pdf)]"
-  echo "convert the PWD: convertPdf --dir"
-  echo "convert a file: convertPdf --file fileToConvert.pdf"
-  echo "--cover flag will only save the cover slide"
+function usage() {
+	echo "Usage: convertPdf  [--cover | -c] [-d | --dir] [-f | --file (fileToConvert.pdf)]"
+	echo "convert the PWD: convertPdf --dir"
+	echo "convert a file: convertPdf --file fileToConvert.pdf"
+	echo "--cover flag will only save the cover slide"
 }
 
 while [[ $# -gt 1 ]]; do
-  key="$1"
-  case $key in
-    --dir|-d)
-      convertDir
-    ;;
-    --cover|-c)
-      COVER=true
-    ;;
-    --file|-f)
-      convertPdf "$2"
-      shift
-    ;;
-    --help|-h)
-      usage
-      exit
-    ;;
-    *)
-      break
-    ;;
-  esac
+	key="$1"
+	case $key in
+	--dir | -d)
+		convertDir
+		;;
+	--cover | -c)
+		COVER=true
+		;;
+	--file | -f)
+		convertPdf "$2"
+		shift
+		;;
+	--help | -h)
+		usage
+		exit
+		;;
+	*)
+		break
+		;;
+	esac
 done
