@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+
+kill_polybar() {
+	pkill polybar
+	# Wait until the processes have been shut down
+	while pgrep -x polybar >/dev/null; do sleep 1; done
+}
+
+dual_screen() {
+	xrandr --output eDP-1 --auto --output DP-1-1 --auto --primary --above eDP-1
+	polybar -q i3 &
+	polybar -q second &
+}
+
+single_screen() {
+	xrandr --auto
+	polybar -q i3 &
+}
+
+[ -f ~/.dotfiles/Xresources ] && xrdb -merge -I"$HOME" ~/.dotfiles/Xresources
+kill_polybar
+case $1 in
+1) single_screen ;;
+2) dual_screen ;;
+*) single_screen ;;
+esac
+feh --bg-fill "$HOME"/pictures/wallpaper.jpg
