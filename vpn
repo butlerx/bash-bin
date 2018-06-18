@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+if test "$BASH" = "" || "$BASH" -uc "a=();true \"\${a[@]}\"" 2>/dev/null; then
+	# Bash 4.4, Zsh
+	set -euo pipefail
+else
+	# Bash 4.3 and older chokes on empty arrays with set -u.
+	set -eo pipefail
+fi
+shopt -s nullglob globstar
+
+newline=$'\n'
+
+echo -n "Enter LDAP User"
+read -r LDAP_USER
+
+echo -n "Enter LDAP password"
+read -r LDAP_PW
+
+echo -n "Enter OTP"
+read -r OTP_PW
+
+sudo openconnect \
+	--servercert=sha256:376185de3cbbeb2f66941d339092e989d6c03fe540f5ace84353e5fd6880215f \
+	--authgroup="LDAP" --protocol=nc https://"$URL"/dana-na/auth/url_default/welcome.cgi \
+	--user="$LDAP_USER" --passwd-on-stdin <<<"${LDAP_PW}${newline}${OTP_PW}" &

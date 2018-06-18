@@ -1,4 +1,6 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+
+set -eo pipefail
 
 kill_polybar() {
 	pkill polybar
@@ -7,9 +9,11 @@ kill_polybar() {
 }
 
 dual_screen() {
-	xrandr --output eDP-1 --auto --output DP-1-1 --auto --primary --above eDP-1
+	xrandr --output eDP-1 --auto --right-of DP-2 --output DP-2 --mode 3840x2160 --primary
 	polybar -q i3 &
 	polybar -q second &
+	i3-msg workspace 2
+	i3-msg move workspace to output left
 }
 
 single_screen() {
@@ -19,9 +23,20 @@ single_screen() {
 
 [ -f ~/.dotfiles/Xresources ] && xrdb -merge -I"$HOME" ~/.dotfiles/Xresources
 kill_polybar
-case $1 in
+case "$1" in
 1) single_screen ;;
 2) dual_screen ;;
+"--bar")
+	case "$2" in
+	2)
+		echo -n "dual bar "
+		polybar -q second &
+		polybar -q i3 &
+		echo "done"
+		;;
+	*) polybar -q i3 &;;
+	esac
+	;;
 *) single_screen ;;
 esac
 feh --bg-fill "$HOME"/pictures/wallpaper.jpg
