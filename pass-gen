@@ -1,0 +1,5 @@
+#! /usr/bin/env bash
+
+characters="${PASSWORD_STORE_CHARACTER_SET_NO_SYMBOLS:-[:alnum:]}"
+read -r -n 12 pass < <(LC_ALL=C tr -dc "$characters" </dev/urandom)
+echo -n "$pass" | xsel -b
