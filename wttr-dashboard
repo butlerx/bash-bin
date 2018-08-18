@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+set -eo pipefail
+
+interval=120
+if [ -z "$1" ]; then
+	interval="$1"
+fi
+
+weather() {
+	clear
+	curl -H "Accept-Language: ${LANG%_*}" --silent wttr.in/"$1" 2>&1
+	sleep "$interval"
+}
+
+while true; do
+	weather dublin
+	weather moon
+done
