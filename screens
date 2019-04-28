@@ -1,46 +1,61 @@
 #!/usr/bin/env bash
 
 if [[ $DEBUG == 'true' ]]; then
-	set -exo pipefail
+  set -exo pipefail
 else
-	set -eo pipefail
+  set -eo pipefail
 fi
 
 kill_polybar() {
-	pkill polybar || true
-	# Wait until the processes have been shut down
-	while pgrep -x polybar >/dev/null; do sleep 1; done
+  pkill polybar || true
+  # Wait until the processes have been shut down
+  while pgrep -x polybar >/dev/null; do sleep 1; done
 }
 
-dual_screen() {
-	xrandr --output eDP-1 --auto --right-of DP-2 --output DP-2 --mode 3840x2160 --primary
-	polybar -q i3 &
-	polybar -q second &
-	i3-msg workspace 2
-	i3-msg move workspace to output left
+2_screen() {
+  xrandr --output eDP-1 --auto --right-of DP-2 --output DP-2 --mode 3840x2160 --primary
+  i3-msg workspace 2
+  i3-msg move workspace to output left
 }
 
-single_screen() {
-	xrandr --auto
-	polybar -q i3 &
+1_screen() {
+  xrandr --auto
 }
 
-[ -f ~/.dotfiles/Xresources ] && xrdb -merge -I"$HOME" ~/.dotfiles/Xresources
-kill_polybar
-case "$1" in
-1) single_screen ;;
-2) dual_screen ;;
-"--bar")
-	case "$2" in
-	2)
-		echo -n "dual bar "
-		polybar -q second &
-		polybar -q i3 &
-		echo "done"
-		;;
-	*) polybar -q i3 &;;
-	esac
-	;;
-*) single_screen ;;
-esac
-feh --bg-fill "$HOME"/pictures/wallpaper.jpg
+(
+  flock 200
+
+  [ -f ~/.dotfiles/Xresources ] && xrdb -merge -I"$HOME" ~/.dotfiles/Xresources
+  kill_polybar
+
+  outputs=$(polybar --list-monitors | cut -d"+" -f1 | sed "s/:\ /-/g")
+  tray_output=eDP1
+
+  for m in $(echo "$outputs" | cut -d"-" -f1); do
+    if [[ $m == "DP2" ]]; then
+      tray_output=$m
+    fi
+  done
+
+  ${#outputs[@]}_screen
+
+  for m in $outputs; do
+    MONITOR=$(echo "$m" | cut -d"-" -f1)
+    TRAY_POSITION=none
+    if [[ $MONITOR == "$tray_output" ]]; then
+      TRAY_POSITION=right
+    fi
+    BAR=1080p
+    size=$(echo "$m" | cut -d"-" -f2 | cut -d"x" -f1)
+    if [[ $size -ge 3200 ]]; then
+      BAR=4k
+    fi
+
+    export TRAY_POSITION
+    export MONITOR
+    polybar --reload "$BAR" </dev/null >"/var/tmp/polybar-$m.log" 2>&1 200>&- &
+    disown
+  done
+
+  feh --bg-fill "$HOME"/pictures/wallpaper.jpg
+) 200>/var/tmp/polybar-launch.lock
