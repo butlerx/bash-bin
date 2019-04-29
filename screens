@@ -12,10 +12,21 @@ kill_polybar() {
   while pgrep -x polybar >/dev/null; do sleep 1; done
 }
 
-2_screen() {
-  xrandr --output eDP-1 --auto --right-of DP-2 --output DP-2 --mode 3840x2160 --primary
+move_ws() {
   i3-msg workspace 2
   i3-msg move workspace to output left
+}
+
+3_screen() {
+  1_screen
+  xrandr --output eDP-1 --auto --right-of DP-2 --output DP-2 --mode 3840x2160 --primary --output DP-1-2 --left-of DP-2 --rotate left
+  move_ws
+}
+
+2_screen() {
+  1_screen
+  xrandr --output eDP-1 --auto --right-of DP-2 --output DP-2 --mode 3840x2160 --primary
+  move_ws
 }
 
 1_screen() {

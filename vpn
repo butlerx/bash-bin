@@ -7,7 +7,27 @@ else
 	# Bash 4.3 and older chokes on empty arrays with set -u.
 	set -eo pipefail
 fi
-shopt -s nullglob globstar
+
+while
+	getopts "o:p" OPTION; do
+	case $OPTION in
+	o)
+		OTP_PW=$OPTARG
+		VPN_URL="https://lassa.demonware.net/dana-na/auth/url_default/welcome.cgi"
+		;;
+
+	p)
+		VPN_URL="https://lassa.demonware.net/okta"
+		OTP_PW="push"
+		;;
+	esac
+done
+
+if [[ -z $OPTION ]]; then
+	VPN_URL="https://lassa.demonware.net/dana-na/auth/url_default/welcome.cgi"
+fi
+
+newline=$'\n'
 
 newline=$'\n'
 
