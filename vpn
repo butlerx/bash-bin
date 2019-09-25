@@ -43,4 +43,4 @@ read -r OTP_PW
 sudo openconnect \
 	--servercert=sha256:376185de3cbbeb2f66941d339092e989d6c03fe540f5ace84353e5fd6880215f \
 	--authgroup="LDAP" --protocol=nc https://"$URL"/dana-na/auth/url_default/welcome.cgi \
-	--user="$LDAP_USER" --passwd-on-stdin <<<"${LDAP_PW}${newline}${OTP_PW}" &
+	--user="$LDAP_USER" --passwd-on-stdin <<<"$LDAP_PW$newline$OTP_PW" &

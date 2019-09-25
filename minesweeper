@@ -66,7 +66,7 @@ function gameover() {
 
 function makestep() {
 	local i j
-	local sx=${1:-$cx} sy=${2:-$cy}
+	local sx="${1:-$cx}" sy="${2:-$cy}"
 	[[ "${board[sy * mx + sx]}" != @(9|10|11) ]] && return
 	((bomb[cy * mx + cx] == 1)) && {
 		gameover
@@ -86,7 +86,7 @@ function makestep() {
 	for ((i = -1; i <= 1; i++)); do for ((j = -1; j <= 1; j++)); do
 		(((i != 0 || j != 0) && sx + i >= 0 && sx + i < mx && sy + j >= 0 && sy + j < my)) && ((bomb[(sy + j) * mx + (sx + i)] == 1)) && ((n++))
 	done; done
-	board[sy * mx + sx]=$n
+	board[sy * mx + sx]="$n"
 	((n)) || {
 		for ((i = -1; i <= 1; i++)); do for ((j = -1; j <= 1; j++)); do
 			(((i != 0 || j != 0) && sx + i >= 0 && sx + i < mx && sy + j >= 0 && sy + j < my)) && makestep $((sx + i)) $((sy + j))

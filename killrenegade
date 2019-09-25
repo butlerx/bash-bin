@@ -109,7 +109,7 @@ done
 	exit 2
 }
 
-last[0]=$(date +'%s')
+last[0]="$(date +'%s')"
 [[ "$logfile" && ! -e "$logfile" ]] && touch "$logfile"
 [[ "$logfile" && -x "$selfdir/killstatistic.awk" ]] || htmldir=''
 [[ "$htmldir" && ! -e "$htmldir" ]] && mkdir -p "$htmldir"
@@ -150,7 +150,7 @@ while :; do
 
 					((cpui > mcpu[i] || memi > mmem[i])) && {
 						((verb)) && echo -n "kill ${comm[i]} ( $pid ) "
-						for sig in ${sign[i]}; do
+						for sig in "${sign[i]}"; do
 							((verb)) && echo -n "$sig... "
 							kill -"$sig" "$pid" && break
 						done
@@ -158,14 +158,14 @@ while :; do
 						[[ "$logfile" ]] && echo -e "$user\\t$(date +'%Y-%m-%d %H:%M:%S')\\t$cpu\\t$mem\\t${comm[$i]}\\t$sig" >>"$logfile"
 					}
 				done
-			last[i]=$now
+			last[i]="$now"
 		fi
 	done
 
 	[[ "$htmldir" ]] && ((last[0] + build <= now)) && {
 		((verb)) && echo 'build'
 		"$selfdir/killstatistic.awk" -v htmldir="$htmldir" "$logfile" &
-		last[0]=$now
+		last[0]="$now"
 	}
 
 	next=0

@@ -19,13 +19,13 @@ get_swap() {
 			Name) PROGNAME="$VALUE" ;;
 			VmSwap) SUM=$((SUM = ${VALUE% *})) ;;
 			esac
-		done <$FILE
-		[ $SUM -gt 0 ] &&
-			CMDLINE=$(cat /proc/$PID/cmdline) &&
-			printf "PID: %9d  swapped: %11d KB (%s): [%s]\n" $PID $SUM "$PROGNAME" "$CMDLINE"
+		done <"$FILE"
+		[ "$SUM" -gt 0 ] &&
+			CMDLINE=$(cat /proc/"$PID"/cmdline) &&
+			printf "PID: %9d  swapped: %11d KB (%s): [%s]\n" "$PID" "$SUM" "$PROGNAME" "$CMDLINE"
 		OVERALL=$((OVERALL + SUM))
 	done
-	printf "Total swapped memory: %14u KB\n" $OVERALL
+	printf "Total swapped memory: %14u KB\n" "$OVERALL"
 }
 
 get_swap | sort -r -k4 -n
